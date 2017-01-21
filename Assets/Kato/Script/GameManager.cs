@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if(characterAlive<2)
+        if(characterAlive<1)
         {
             //  ドワーフがやられた
             isGameEnd = true;
