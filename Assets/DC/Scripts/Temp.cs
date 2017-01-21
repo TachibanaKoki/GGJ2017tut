@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Temp : MonoBehaviour {
 
     public Image danger;
+    public Text combonum;
 
     public float delay;
     public float tempo;
@@ -35,6 +36,7 @@ public class Temp : MonoBehaviour {
 	void Update () {
         now++;
         Test();
+        combonum.text = combo.ToString();
 	}
 
     public void Combo(Vector3 vec) {
