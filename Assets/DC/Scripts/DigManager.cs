@@ -22,6 +22,8 @@ public class DigManager : MonoBehaviour {
 
     public int x, y;
 
+    public float a;
+
     private float alpha = 0;
 
     #endregion
@@ -35,6 +37,7 @@ public class DigManager : MonoBehaviour {
 	void Update () {
         Dig(dig);
         man.score[x, y] = ScoreMus();
+        a = ScoreMus();
 	}
 
     public void Dig(float a) {
@@ -45,11 +48,11 @@ public class DigManager : MonoBehaviour {
     public float ScoreMus() {
         float res = 0;
 
-        if (dig > digmax) {
+        if (dig >= digmax) {
             res = score;
+            man.map[x, y] = true;
             if (dig > digmax + damagerate) {
                 res -= Mathf.Floor((dig - digmax) / damagerate) * minus;
-                man.map[x, y] = true;
             }
         }
 
