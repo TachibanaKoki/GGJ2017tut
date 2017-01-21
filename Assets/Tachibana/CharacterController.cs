@@ -17,7 +17,7 @@ public class CharacterController : MonoBehaviour {
     float m_StopDistance = 10.0f;
 
     [SerializeField]
-    float TensionDownSpeed = 3.0f;
+    float TensionDownSpeed = 1.0f;
 
     [SerializeField]
     GameObject DethObject;
@@ -35,20 +35,24 @@ public class CharacterController : MonoBehaviour {
         TensionPoint = 10;
         m_Velocity = Vector3.zero;
         StartCoroutine(TensionDown());
-        TapUtils.I.OnTapDown += (Vector3 pos) => 
+        TapUtils.I.OnTapDown += TapAction;
+    }
+
+    void TapAction(Vector3 pos)
+    {
+        pos = m_Camera.ScreenToWorldPoint(pos);
+        if ((Vector3.Distance(pos, transform.position) - 10) < m_ReactionDestance)
         {
-            pos = m_Camera.ScreenToWorldPoint(pos);
-            if ((Vector3.Distance(pos, transform.position)-10) < m_ReactionDestance)
-            {
-                Vector3 p = new Vector3(pos.x,pos.y,0);
-                TensionPoint++;
-                MoveTo(p);
-            }
-        };
+            Vector3 p = new Vector3(pos.x, pos.y, 0);
+            TensionPoint++;
+            MoveTo(p);
+        }
     }
 
     void Update()
     {
+        GetComponent<SpriteRenderer>().color = new Color(1,1,1,(float)TensionPoint/10.0f);
+
         if (isMove)
         {
             transform.Translate(m_Velocity);
@@ -64,6 +68,7 @@ public class CharacterController : MonoBehaviour {
         if(col.gameObject.tag== "Player")
         {
             GameObject.Instantiate(DethObject, transform.position,Quaternion.identity);
+            TapUtils.I.OnTapDown -= TapAction;
             Destroy(gameObject);
         }
     }
@@ -88,6 +93,6 @@ public class CharacterController : MonoBehaviour {
     {
         isMove = true;
         m_TargetPosition = pos;
-        m_Velocity = (pos - transform.position).normalized * m_MoveSpeed;
+        m_Velocity = (pos - transform.position).normalized * m_MoveSpeed*TensionPoint*0.1f;
     } 
 }
