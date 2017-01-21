@@ -54,10 +54,10 @@ public class Temp : MonoBehaviour {
     public void TempoTest(Vector3 vec) {
         //Debug.Log(now % tempo + max);
 
-
         if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
         {
             flag = true;
+            Sound.own.Play(Sound.own.se.whistl, 0);
         }
         else
         {
