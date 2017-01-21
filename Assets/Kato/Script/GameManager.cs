@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if(characterAlive<2)
+        if(characterAlive<1)
         {
             isGameEnd = true;
             SceneManager.LoadSceneAsync("GameOver");
