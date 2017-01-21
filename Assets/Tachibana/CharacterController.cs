@@ -19,6 +19,9 @@ public class CharacterController : MonoBehaviour {
     [SerializeField]
     float TensionDownSpeed = 3.0f;
 
+    [SerializeField]
+    GameObject DethObject;
+
     private Camera m_Camera;
     private Vector3 m_Velocity;
     private Vector3 m_TargetPosition;
@@ -35,7 +38,7 @@ public class CharacterController : MonoBehaviour {
         TapUtils.I.OnTapDown += (Vector3 pos) => 
         {
             pos = m_Camera.ScreenToWorldPoint(pos);
-            if (Vector3.Distance(pos, transform.position) < m_ReactionDestance)
+            if ((Vector3.Distance(pos, transform.position)-10) < m_ReactionDestance)
             {
                 Vector3 p = new Vector3(pos.x,pos.y,0);
                 TensionPoint++;
@@ -54,9 +57,14 @@ public class CharacterController : MonoBehaviour {
                 isMove = false;
             }
         }
-        else
-        {
+    }
 
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag== "Player")
+        {
+            GameObject.Instantiate(DethObject, transform.position,Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 
