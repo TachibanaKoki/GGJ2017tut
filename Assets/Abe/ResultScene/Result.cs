@@ -40,7 +40,24 @@ public class Result : MonoBehaviour, IPointerDownHandler
         }
         else
         {
-            SceneManager.LoadScene("TitleScene");
+        //    SceneManager.LoadScene("TitleScene");
+        //  次のステージへ遷移（仮実装）
+        switch ( PlayerPrefs.GetInt( "stage" ) )
+            {
+                case 1:
+                    SceneManager.LoadScene("Master");
+                    break;
+                case 2:
+                    SceneManager.LoadScene("Master 1");
+                    break;
+                case 3:
+                    SceneManager.LoadScene("Master 2");
+                    break;
+                default:
+                    SceneManager.LoadScene("TitleScene");
+                    break;
+
+            }
         }
     }
 }

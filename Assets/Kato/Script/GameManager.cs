@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour {
     public  GameObject[] Character { get; private set; }
     private GameObject[] Rocks;
     bool isGameEnd;
-    
 
     private GameManager()
     {
@@ -58,12 +57,15 @@ public class GameManager : MonoBehaviour {
 
         if(characterAlive<2)
         {
+            //  ドワーフがやられた
             isGameEnd = true;
             SceneManager.LoadSceneAsync("GameOver");
         }
 
         if(!RockAlive)
         {
+            //  岩をすべて砕いた
+            PlayerPrefs.SetInt("stage", PlayerPrefs.GetInt( "stage" ) +  1 );
             isGameEnd = true;
             SceneManager.LoadSceneAsync("ResultScene");
         }
