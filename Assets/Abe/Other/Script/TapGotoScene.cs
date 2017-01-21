@@ -22,7 +22,6 @@ public class TapGotoScene : MonoBehaviour, IPointerDownHandler
     IEnumerator GotoScene()
     {
         yield return new WaitForSeconds(delayTime);
-    //    SceneManager.LoadScene(sceneName, mode);
 
         //  次のステージへ遷移（仮実装）
         switch (PlayerPrefs.GetInt("stage"))
@@ -39,7 +38,12 @@ public class TapGotoScene : MonoBehaviour, IPointerDownHandler
             default:
                 SceneManager.LoadScene("TitleScene");
                 break;
-
         }
+
+        if ( sceneName == "TitleScene" )
+        {
+            SceneManager.LoadScene(sceneName, mode);
+        }
+
     }
 }
