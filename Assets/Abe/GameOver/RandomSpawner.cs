@@ -22,10 +22,16 @@ public class RandomSpawner : MonoBehaviour
     {
         for(int i = 0; i < instanceNumbers; i++)
         {
+            //ランダムに岩を落とす
             int rand = Random.Range(0, stones.Count);
             GameObject randomStone = stones[rand];
 
+            //生成
             GameObject instance = Instantiate(randomStone, transform.position, Quaternion.identity);
+            instance.transform.SetParent(transform);
+            instance.transform.localScale = Vector3.one * 4;
+            instance.transform.Rotate(Vector3.forward, Random.Range(0.0f, 360.0f));
+
             Rigidbody2D rig = instance.GetComponent<Rigidbody2D>();
             Vector2 force = new Vector2()
             {
