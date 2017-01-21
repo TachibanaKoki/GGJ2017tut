@@ -7,11 +7,13 @@ public class GameManager : MonoBehaviour {
 
     private static GameManager mInstance;
     private GameObject[] Character;
+    private GameObject[] Rocks;
     bool isGameEnd;
     
 
     private GameManager()
-    { // Private Constructor
+    {
+        // Private Constructor
         Debug.Log("Create Singleton instance.");
     }
 
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         Character = GameObject.FindGameObjectsWithTag("Player");
+        Rocks = GameObject.FindGameObjectsWithTag("Rock");
         isGameEnd = false;
     }
 
@@ -36,6 +39,7 @@ public class GameManager : MonoBehaviour {
         if (isGameEnd) return;
 
         int characterAlive = 0;
+        bool RockAlive = false;
         for(int i =0;i < Character.Length;i++)
         {
             if(Character[i]!=null)
@@ -44,10 +48,26 @@ public class GameManager : MonoBehaviour {
             }
         }
 
+        for(int i=0;i< Rocks.Length;i++)
+        {
+            if (Rocks[i] != null)
+            {
+                RockAlive = true;
+            }
+        }
+
         if(characterAlive<2)
         {
+            isGameEnd = true;
             SceneManager.LoadSceneAsync("GameOver");
         }
+
+        if(!RockAlive)
+        {
+            isGameEnd = true;
+            SceneManager.LoadSceneAsync("ResultScene");
+        }
+
     }
 
     //  スコア

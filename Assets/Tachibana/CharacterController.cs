@@ -44,7 +44,7 @@ public class CharacterController : MonoBehaviour
     void Start()
     {
         m_Camera = Camera.main;
-        TensionPoint = 10;
+        TensionPoint = 50;
         timer = 0;
         m_Velocity = Vector3.zero;
         StartCoroutine(TensionDown());
@@ -95,13 +95,13 @@ public class CharacterController : MonoBehaviour
 
     IEnumerator TensionEffect()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        WaitForSeconds wait = new WaitForSeconds(0.1f);
         yield return wait;
         while (true)
         {
-            if (TensionPoint > 10.0f)
+            if (TensionPoint > 50.0f)
             {
-                m_TensionEffect.Emit(TensionPoint - 10);
+                m_TensionEffect.Emit(TensionPoint - 50);
             }
             yield return wait;
         }
