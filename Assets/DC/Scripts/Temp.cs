@@ -23,8 +23,6 @@ public class Temp : MonoBehaviour {
 
     private float nowtime;
 
-    #region フレーム処理
-
     // Use this for initialization
     void Start () {
         start = SumTime();
@@ -76,6 +74,8 @@ public class Temp : MonoBehaviour {
         {
             danger.color = new Color(0, 0, 0, 0);
         }
+
+        danger.color = new Color(0, 0, 0, 0);
     }
 
     public float SumTime() {
@@ -96,6 +96,4 @@ public class Temp : MonoBehaviour {
 
         return res;
     }
-
-    #endregion
 }
