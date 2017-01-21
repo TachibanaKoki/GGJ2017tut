@@ -57,7 +57,7 @@ public class CharacterController : MonoBehaviour {
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         GetComponent<SpriteRenderer>().color = new Color(1,1,1,(float)TensionPoint/10.0f);
 
@@ -115,7 +115,12 @@ public class CharacterController : MonoBehaviour {
     {
         isMove = true;
         m_TargetPosition = pos;
-        m_Velocity = (pos - transform.position).normalized * m_MoveSpeed*TensionPoint*0.1f;
+        float m = (pos - transform.position).magnitude;
+        if (m < 1)
+            m = 1;
+        float n =  1/(m*0.5f);
+        
+        m_Velocity = (pos - transform.position).normalized*n* m_MoveSpeed*TensionPoint*0.1f;
     }
 
     void OnCollisionEnter2D(Collision2D col)
