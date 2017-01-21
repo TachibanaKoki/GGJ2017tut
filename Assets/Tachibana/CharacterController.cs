@@ -32,6 +32,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private ParticleSystem m_TensionEffect;
 
+    [SerializeField]
+    private Temp m_temp;
+
     private Camera m_Camera;
     private Vector3 m_Velocity;
     private Vector3 m_TargetPosition;
@@ -56,17 +59,18 @@ public class CharacterController : MonoBehaviour
     void TapAction(Vector3 pos)
     {
         pos = m_Camera.ScreenToWorldPoint(pos);
-        if ((Vector3.Distance(pos, transform.position) - 10) < m_ReactionDestance)
+        if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance+(TensionPoint*0.01f)))
         {
             Vector3 p = new Vector3(pos.x, pos.y, 0);
-            TensionPoint++;
+            int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
+            TensionPoint = Mathf.Min(100,TensionPoint+combo);
             MoveTo(p);
         }
     }
 
     void FixedUpdate()
     {
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 10.0f);
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 25.0f);
 
         switch (m_state)
         {
@@ -132,7 +136,7 @@ public class CharacterController : MonoBehaviour
             m = 1;
         float n = 1 / m;
 
-        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * TensionPoint * 0.1f;
+        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * (TensionPoint/25);
     }
 
     void OnCollisionEnter2D(Collision2D col)
