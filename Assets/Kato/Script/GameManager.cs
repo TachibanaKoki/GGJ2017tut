@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
     private static GameManager mInstance;
-    private GameObject[] Character;
+    public  GameObject[] Character { get; private set; }
     private GameObject[] Rocks;
     bool isGameEnd;
     
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         Character = GameObject.FindGameObjectsWithTag("Player");
         Rocks = GameObject.FindGameObjectsWithTag("Rock");
