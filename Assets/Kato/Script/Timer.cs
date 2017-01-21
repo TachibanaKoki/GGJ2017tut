@@ -25,6 +25,6 @@ public class Timer : MonoBehaviour {
             SceneManager.LoadScene("Abe/GameOver/GameOver");    //  todo 仮
         }
 
-        this.GetComponent<Text>().text = "残り時間:" + timer;
+        this.GetComponent<Text>().text = "残り時間:" + (int)timer;
     }
 }
