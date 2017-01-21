@@ -14,11 +14,12 @@ public class TapUtils : MonoBehaviour
         I = this;
     }
 
-	void Update ()
+    void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            OnTapDown.Invoke(Input.mousePosition);
+            if (OnTapDown != null)
+                OnTapDown.Invoke(Input.mousePosition);
         }
-	}
+    }
 }

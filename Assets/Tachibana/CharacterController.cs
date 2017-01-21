@@ -22,20 +22,28 @@ public class CharacterController : MonoBehaviour {
     [SerializeField]
     GameObject DethObject;
 
+    [SerializeField]
+    private ParticleSystem m_TensionEffect;
+
     private Camera m_Camera;
     private Vector3 m_Velocity;
     private Vector3 m_TargetPosition;
 
-    bool isMove=false;
+    private bool isMove=false;
+    private bool isPatrol = true;
+    private float timer;
 
 
     void Start()
     {
         m_Camera = Camera.main;
         TensionPoint = 10;
+        timer = 0;
         m_Velocity = Vector3.zero;
         StartCoroutine(TensionDown());
+        StartCoroutine(TensionEffect());
         TapUtils.I.OnTapDown += TapAction;
+        
     }
 
     void TapAction(Vector3 pos)
@@ -61,15 +69,29 @@ public class CharacterController : MonoBehaviour {
                 isMove = false;
             }
         }
+        else
+        {
+            timer += Time.deltaTime;
+            if (timer > 1.0f)
+            {
+                timer = 0.0f;
+                m_Velocity = new Vector2(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f)).normalized * m_MoveSpeed * TensionPoint * 0.03f;
+            }
+            transform.Translate(m_Velocity);
+        }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    IEnumerator TensionEffect()
     {
-        if(col.gameObject.tag== "Player")
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        yield return wait;
+        while (true)
         {
-            GameObject.Instantiate(DethObject, transform.position,Quaternion.identity);
-            TapUtils.I.OnTapDown -= TapAction;
-            Destroy(gameObject);
+            if (TensionPoint > 10.0f)
+            {
+                m_TensionEffect.Emit(TensionPoint - 10);
+            }
+            yield return wait;
         }
     }
 
@@ -94,5 +116,15 @@ public class CharacterController : MonoBehaviour {
         isMove = true;
         m_TargetPosition = pos;
         m_Velocity = (pos - transform.position).normalized * m_MoveSpeed*TensionPoint*0.1f;
-    } 
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            GameObject.Instantiate(DethObject, transform.position, Quaternion.identity);
+            TapUtils.I.OnTapDown -= TapAction;
+            Destroy(gameObject);
+        }
+    }
 }
