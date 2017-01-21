@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class TapPlayAnimation : MonoBehaviour, IPointerDownHandler
 {
@@ -12,6 +13,9 @@ public class TapPlayAnimation : MonoBehaviour, IPointerDownHandler
         Animator anim = obj.GetComponent<Animator>();
         anim.Play("TapAnimation");
 
-        
+
+        //  todo 仮遷移
+        SceneManager.LoadScene("Master");
+
     }
 }
