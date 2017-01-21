@@ -65,7 +65,8 @@ public class GameManager : MonoBehaviour {
         if(!RockAlive)
         {
             //  岩をすべて砕いた
-            PlayerPrefs.SetInt("stage", PlayerPrefs.GetInt( "stage" ) +  1 );
+            PlayerPrefs.SetInt("stage", PlayerPrefs.GetInt("stage") + 1);
+            PlayerPrefs.SetInt("score", characterAlive * 10);   //  とりあえずドワーフの数
             isGameEnd = true;
             SceneManager.LoadSceneAsync("ResultScene");
         }

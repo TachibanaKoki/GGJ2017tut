@@ -30,6 +30,7 @@ public class ShowResultScore : MonoBehaviour
     {
         showScore = ShowScore();
         StartCoroutine(showScore);
+        resultScore = PlayerPrefs.GetInt("score");
     }
 
     IEnumerator ShowScore()
