@@ -43,7 +43,7 @@ public class Temp : MonoBehaviour {
         Test();
         combonum.text = "Combo : " + combo.ToString();
 
-        Debug.Log(tempotest);
+        //Debug.Log(tempotest);
 	}
 
     public void Combo(Vector3 vec) {
