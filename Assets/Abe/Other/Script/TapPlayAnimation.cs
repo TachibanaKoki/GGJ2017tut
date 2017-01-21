@@ -12,10 +12,5 @@ public class TapPlayAnimation : MonoBehaviour, IPointerDownHandler
     {
         Animator anim = obj.GetComponent<Animator>();
         anim.Play("TapAnimation");
-
-
-        //  todo 仮遷移
-        SceneManager.LoadScene("Master");
-
     }
 }
