@@ -37,7 +37,9 @@ public class Sound : MonoBehaviour {
     }
 
     public void SetBGM(AudioClip a) {
-        BgmSource.PlayOneShot(a);
+        BgmSource.clip = a;
+        BgmSource.loop = true;
+        BgmSource.Play();
     }
 
     public void Awake() {
