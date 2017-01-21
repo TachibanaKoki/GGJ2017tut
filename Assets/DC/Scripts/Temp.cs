@@ -36,7 +36,7 @@ public class Temp : MonoBehaviour {
 	void Update () {
         now++;
         Test();
-        combonum.text = combo.ToString();
+        combonum.text = "Combo : " + combo.ToString();
 	}
 
     public void Combo(Vector3 vec) {
