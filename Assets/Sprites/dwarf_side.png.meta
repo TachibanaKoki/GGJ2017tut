@@ -1,13 +1,12 @@
 fileFormatVersion: 2
-guid: 419e60893187e5748a9b6cd0a9beba64
-timeCreated: 1484989451
+guid: 364a46e6f5e068e4a9d936bff1d25bdc
+timeCreated: 1485001782
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: dwarf_front_0
-    21300002: dwarf_front_1
-    21300004: dwarf_front_2
-    21300006: dwarf_front_3
+    21300000: dwarf_side_0
+    21300002: dwarf_side_1
+    21300004: dwarf_side_2
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -98,52 +97,39 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dwarf_front_0
+      name: dwarf_side_0
       rect:
         serializedVersion: 2
-        x: 390
-        y: 93
-        width: 624
-        height: 1261
+        x: 255
+        y: 115
+        width: 966
+        height: 1252
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dwarf_front_1
+      name: dwarf_side_1
       rect:
         serializedVersion: 2
-        x: 1856
-        y: 122
-        width: 662
-        height: 1256
+        x: 1881
+        y: 115
+        width: 782
+        height: 1270
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dwarf_front_2
+      name: dwarf_side_2
       rect:
         serializedVersion: 2
-        x: 3266
-        y: 93
-        width: 760
-        height: 1261
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: dwarf_front_3
-      rect:
-        serializedVersion: 2
-        x: 4039
-        y: 282
-        width: 7
-        height: 12
+        x: 3384
+        y: 80
+        width: 843
+        height: 1287
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

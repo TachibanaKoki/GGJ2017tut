@@ -41,6 +41,7 @@ public class CharacterController : MonoBehaviour
 
     private bool isMove = false;
     private bool isPatrol = true;
+    private bool isStop = false;
     private float timer;
 
 
@@ -50,6 +51,7 @@ public class CharacterController : MonoBehaviour
         TensionPoint = 50;
         timer = 0;
         m_Velocity = Vector3.zero;
+        isStop = false;
         StartCoroutine(TensionDown());
         StartCoroutine(TensionEffect());
         TapUtils.I.OnTapDown += TapAction;
@@ -71,11 +73,11 @@ public class CharacterController : MonoBehaviour
     void FixedUpdate()
     {
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 25.0f);
-
+        if (isStop) return;
         switch (m_state)
         {
             case CharacterState.MOVE:
-                transform.Translate(m_Velocity);
+                CharactorMove();
                 Vector3 v = m_TargetPosition - transform.position;
                 if (Vector3.Dot(v, m_Velocity) < 0)
                 {
@@ -90,11 +92,37 @@ public class CharacterController : MonoBehaviour
                     timer = 0.0f;
                     m_Velocity = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized * m_MoveSpeed * TensionPoint * 0.03f;
                 }
-                transform.Translate(m_Velocity);
+                CharactorMove();
                 break;
             case CharacterState.ATTACK:
                 break;
         }
+    }
+
+    void CharactorMove()
+    {
+        Animator anim = GetComponent<Animator>();
+        if (Mathf.Abs(m_Velocity.x)>Mathf.Abs(m_Velocity.y))
+        {
+            anim.SetBool("isFront", false);
+            if (m_Velocity.x<0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else if(m_Velocity.x>0)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+        else if(m_Velocity == Vector3.zero)
+        {
+            anim.SetBool("isFront", true);
+        }
+        else
+        {
+            anim.SetBool("isFront", false);
+        }
+        transform.Translate(m_Velocity);
     }
 
     IEnumerator TensionEffect()
@@ -144,7 +172,9 @@ public class CharacterController : MonoBehaviour
 
         if (col.gameObject.tag == "Player")
         {
-            Deth();
+            //Deth();
+            isStop = true;
+            StartCoroutine(Deray(3.0f,() => { isStop = false; }));
         }
         else if(col.gameObject.tag == "Rock")
         {
@@ -155,6 +185,12 @@ public class CharacterController : MonoBehaviour
         {
             Deth();
         }
+    }
+
+    IEnumerator Deray(float duration, System.Action action)
+    {
+        yield return new WaitForSeconds(duration);
+        action.Invoke();
     }
 
     void Deth()
