@@ -125,11 +125,16 @@ public class CharacterController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
+
         if (col.gameObject.tag == "Player")
         {
             GameObject.Instantiate(DethObject, transform.position, Quaternion.identity);
             TapUtils.I.OnTapDown -= TapAction;
             Destroy(gameObject);
+        }
+        else
+        {
+            m_Velocity = Vector3.zero;
         }
     }
 }
