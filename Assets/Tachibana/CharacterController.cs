@@ -140,20 +140,29 @@ public class CharacterController : MonoBehaviour
 
         if (col.gameObject.tag == "Player")
         {
-            GameObject.Instantiate(DethObject, transform.position, Quaternion.identity);
-            TapUtils.I.OnTapDown -= TapAction;
-            Destroy(gameObject);
+            Deth();
         }
-        else
+        else if(col.gameObject.tag == "Rock")
         {
             m_state = CharacterState.ATTACK;
             m_Velocity = Vector3.zero;
         }
+        else if(col.gameObject.tag == "Enemy" )
+        {
+            Deth();
+        }
+    }
+
+    void Deth()
+    {
+        GameObject.Instantiate(DethObject, transform.position, Quaternion.identity);
+        TapUtils.I.OnTapDown -= TapAction;
+        Destroy(gameObject);
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag != "Player")
+        if (col.gameObject.tag == "Rock")
         {
             if (m_state == CharacterState.ATTACK)
             {

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class Temp : MonoBehaviour {
+
+    public Image danger;
 
     public float delay;
     public float tempo;
@@ -31,6 +34,7 @@ public class Temp : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         now++;
+        Test();
 	}
 
     public void Combo(Vector3 vec) {
@@ -44,7 +48,7 @@ public class Temp : MonoBehaviour {
     }
 
     public void TempoTest(Vector3 vec) {
-        Debug.Log(now % tempo + max);
+        //Debug.Log(now % tempo + max);
 
 
         if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
@@ -54,6 +58,17 @@ public class Temp : MonoBehaviour {
         else
         {
             flag = false;
+        }
+    }
+
+    public void Test() {
+        if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
+        {
+            danger.color = new Color(1, 0, 0, 0.2f);
+        }
+        else
+        {
+            danger.color = new Color(0, 0, 0, 0);
         }
     }
 
