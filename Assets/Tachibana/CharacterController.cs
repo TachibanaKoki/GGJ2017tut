@@ -2,16 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour {
+public enum CharacterState
+{
+    NORMAL, MOVE, BATTLE, ATTACK
+}
 
-    
+public class CharacterController : MonoBehaviour
+{
+
+
     public int TensionPoint;
+    public CharacterState m_state = CharacterState.MOVE;
 
     [SerializeField]
     float m_MoveSpeed = 10.0f;
 
     [SerializeField]
-    float m_ReactionDestance =100.0f;
+    float m_ReactionDestance = 100.0f;
 
     [SerializeField]
     float m_StopDistance = 10.0f;
@@ -29,7 +36,7 @@ public class CharacterController : MonoBehaviour {
     private Vector3 m_Velocity;
     private Vector3 m_TargetPosition;
 
-    private bool isMove=false;
+    private bool isMove = false;
     private bool isPatrol = true;
     private float timer;
 
@@ -43,7 +50,7 @@ public class CharacterController : MonoBehaviour {
         StartCoroutine(TensionDown());
         StartCoroutine(TensionEffect());
         TapUtils.I.OnTapDown += TapAction;
-        
+
     }
 
     void TapAction(Vector3 pos)
@@ -59,25 +66,30 @@ public class CharacterController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        GetComponent<SpriteRenderer>().color = new Color(1,1,1,(float)TensionPoint/10.0f);
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 10.0f);
 
-        if (isMove)
+        switch (m_state)
         {
-            transform.Translate(m_Velocity);
-            if (Vector3.Distance(transform.position, m_TargetPosition) < m_StopDistance)
-            {
-                isMove = false;
-            }
-        }
-        else
-        {
-            timer += Time.deltaTime;
-            if (timer > 1.0f)
-            {
-                timer = 0.0f;
-                m_Velocity = new Vector2(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f)).normalized * m_MoveSpeed * TensionPoint * 0.03f;
-            }
-            transform.Translate(m_Velocity);
+            case CharacterState.MOVE:
+                transform.Translate(m_Velocity);
+                Vector3 v = m_TargetPosition - transform.position;
+                if (Vector3.Dot(v, m_Velocity) < 0)
+                {
+                    m_state = CharacterState.NORMAL;
+                    m_Velocity = Vector3.zero;
+                }
+                break;
+            case CharacterState.NORMAL:
+                timer += Time.deltaTime;
+                if (timer > 1.0f)
+                {
+                    timer = 0.0f;
+                    m_Velocity = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized * m_MoveSpeed * TensionPoint * 0.03f;
+                }
+                transform.Translate(m_Velocity);
+                break;
+            case CharacterState.ATTACK:
+                break;
         }
     }
 
@@ -111,16 +123,16 @@ public class CharacterController : MonoBehaviour {
         }
     }
 
-     public  void MoveTo(Vector3 pos)
+    public void MoveTo(Vector3 pos)
     {
-        isMove = true;
+        m_state = CharacterState.MOVE;
         m_TargetPosition = pos;
         float m = (pos - transform.position).magnitude;
         if (m < 1)
             m = 1;
-        float n =  1/(m*0.5f);
-        
-        m_Velocity = (pos - transform.position).normalized*n* m_MoveSpeed*TensionPoint*0.1f;
+        float n = 1 / m;
+
+        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * TensionPoint * 0.1f;
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -134,7 +146,20 @@ public class CharacterController : MonoBehaviour {
         }
         else
         {
+            m_state = CharacterState.ATTACK;
             m_Velocity = Vector3.zero;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag != "Player")
+        {
+            if (m_state == CharacterState.ATTACK)
+            {
+                m_state = CharacterState.NORMAL;
+                m_Velocity = Vector3.zero;
+            }
         }
     }
 }
