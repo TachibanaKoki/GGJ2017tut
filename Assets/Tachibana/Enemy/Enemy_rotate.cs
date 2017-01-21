@@ -10,7 +10,7 @@ public class Enemy_rotate : MonoBehaviour
     // Use this for initialization
     void Start () {
         rotateAngle = 0.0f;
-        rotateSpeed = 40;
+        rotateSpeed = 150;
 	}
 	
 	// Update is called once per frame
