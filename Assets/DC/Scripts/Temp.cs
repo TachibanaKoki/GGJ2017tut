@@ -22,6 +22,7 @@ public class Temp : MonoBehaviour {
     public int combo;
 
     private float nowtime;
+    private bool tempotest;
 
     // Use this for initialization
     void Start () {
@@ -31,6 +32,8 @@ public class Temp : MonoBehaviour {
         TapUtils.I.OnTapDown += Combo;
         flag = false;
         combo = 0;
+
+        tempotest = false;
 	}
 	
 	// Update is called once per frame
@@ -39,6 +42,8 @@ public class Temp : MonoBehaviour {
         now = nowtime - start;
         Test();
         combonum.text = "Combo : " + combo.ToString();
+
+        Debug.Log(tempotest);
 	}
 
     public void Combo(Vector3 vec) {
@@ -69,10 +74,12 @@ public class Temp : MonoBehaviour {
         if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
         {
             danger.color = new Color(1, 0, 0, 0.2f);
+            tempotest = true;
         }
         else
         {
             danger.color = new Color(0, 0, 0, 0);
+            tempotest = false;
         }
 
         danger.color = new Color(0, 0, 0, 0);
@@ -92,7 +99,7 @@ public class Temp : MonoBehaviour {
         res += DateTime.Now.Millisecond;
         res = res / 1000 * 60;
 
-        Debug.Log(res);
+        //Debug.Log(res);
 
         return res;
     }
