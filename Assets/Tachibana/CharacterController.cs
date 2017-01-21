@@ -41,6 +41,7 @@ public class CharacterController : MonoBehaviour
 
     private bool isMove = false;
     private bool isPatrol = true;
+    private bool isStop = false;
     private float timer;
 
 
@@ -50,6 +51,7 @@ public class CharacterController : MonoBehaviour
         TensionPoint = 50;
         timer = 0;
         m_Velocity = Vector3.zero;
+        isStop = false;
         StartCoroutine(TensionDown());
         StartCoroutine(TensionEffect());
         TapUtils.I.OnTapDown += TapAction;
@@ -71,7 +73,7 @@ public class CharacterController : MonoBehaviour
     void FixedUpdate()
     {
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 25.0f);
-
+        if (isStop) return;
         switch (m_state)
         {
             case CharacterState.MOVE:
@@ -144,7 +146,9 @@ public class CharacterController : MonoBehaviour
 
         if (col.gameObject.tag == "Player")
         {
-            Deth();
+            //Deth();
+            isStop = true;
+            StartCoroutine(Deray(3.0f,() => { isStop = false; }));
         }
         else if(col.gameObject.tag == "Rock")
         {
@@ -155,6 +159,12 @@ public class CharacterController : MonoBehaviour
         {
             Deth();
         }
+    }
+
+    IEnumerator Deray(float duration, System.Action action)
+    {
+        yield return new WaitForSeconds(duration);
+        action.Invoke();
     }
 
     void Deth()
