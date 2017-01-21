@@ -21,11 +21,14 @@ public class Temp : MonoBehaviour {
 
     public int combo;
 
+    private float nowtime;
+
     #region フレーム処理
 
     // Use this for initialization
     void Start () {
-        now -= delay;
+        start = SumTime();
+        start -= delay;
         TapUtils.I.OnTapDown += TempoTest;
         TapUtils.I.OnTapDown += Combo;
         flag = false;
@@ -34,7 +37,8 @@ public class Temp : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        now++;
+        nowtime = SumTime();
+        now = nowtime - start;
         Test();
         combonum.text = "Combo : " + combo.ToString();
 	}
@@ -72,6 +76,25 @@ public class Temp : MonoBehaviour {
         {
             danger.color = new Color(0, 0, 0, 0);
         }
+    }
+
+    public float SumTime() {
+        float res = 0;
+
+        //res += DateTime.Now.Day;
+        //res *= 24;
+        //res += DateTime.Now.Hour;
+        //res *= 60;
+        res += DateTime.Now.Minute;
+        res *= 60;
+        res += DateTime.Now.Second;
+        res *= 1000;
+        res += DateTime.Now.Millisecond;
+        res = res / 1000 * 60;
+
+        Debug.Log(res);
+
+        return res;
     }
 
     #endregion
