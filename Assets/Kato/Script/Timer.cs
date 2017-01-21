@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour {
         Debug.Log("timer=" + timer);
         if ( timer <= 0 )
         {
-            SceneManager.LoadScene("Abe/GameOver/GameOver");    //  todo 仮
+        //    SceneManager.LoadScene("Abe/GameOver/GameOver");    //  todo 仮
         }
 
         this.GetComponent<Text>().text = "残り時間:" + (int)timer;
