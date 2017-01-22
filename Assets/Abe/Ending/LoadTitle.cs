@@ -19,7 +19,7 @@ public class LoadTitle : MonoBehaviour {
 
     IEnumerator texenable()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.0f);
         tex.enabled = true;
     }
 

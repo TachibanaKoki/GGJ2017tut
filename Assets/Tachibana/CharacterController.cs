@@ -78,7 +78,7 @@ public class CharacterController : MonoBehaviour
         pos = m_Camera.ScreenToWorldPoint(pos);
         try
         {
-            if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance + (TensionPoint * 0.01f)))
+            if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance))
             {
                 Vector3 p = new Vector3(pos.x, pos.y, 0);
                 int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
