@@ -49,16 +49,20 @@ public class CharacterController : MonoBehaviour
 
     void Start()
     {
+        isStop = true;
+        StartCoroutine(Deray(3.0f,Initialize));
+    }
+
+    void Initialize()
+    {
         m_Camera = Camera.main;
         TensionPoint = 50;
         timer = 0;
         m_Velocity = Vector3.zero;
-        isStop = false;
         StartCoroutine(TensionDown());
         StartCoroutine(TensionEffect());
         TapUtils.I.OnTapDown += TapAction;
         BreakRock = new List<GameObject>();
-
     }
 
     void TapAction(Vector3 pos)
@@ -68,15 +72,15 @@ public class CharacterController : MonoBehaviour
         {
             Vector3 p = new Vector3(pos.x, pos.y, 0);
             int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
-            TensionPoint = Mathf.Min(100, TensionPoint + combo);
+            TensionPoint = Mathf.Min(100, TensionPoint + combo+1);
             MoveTo(p);
         }
     }
 
     void FixedUpdate()
     {
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 25.0f);
         if (isStop) return;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)TensionPoint / 25.0f);
         switch (m_state)
         {
             case CharacterState.MOVE:
@@ -104,6 +108,7 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
+        if (isStop) return;
         bool isBreakRock = false;
         for (int i = 0; i < BreakRock.Count; i++)
         {
@@ -183,7 +188,7 @@ public class CharacterController : MonoBehaviour
             m = 1;
         float n = 1 / m;
 
-        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * (TensionPoint / 25);
+        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * ((TensionPoint / 25)+0.1f)*0.5f;
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -192,8 +197,9 @@ public class CharacterController : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             //Deth();
-            isStop = true;
-            StartCoroutine(Deray(3.0f, () => { isStop = false; }));
+            //isStop = true;
+            //StartCoroutine(Deray(3.0f, () => { isStop = false; }));
+            TensionPoint -= 10;
         }
         else if (col.gameObject.tag == "Rock")
         {
