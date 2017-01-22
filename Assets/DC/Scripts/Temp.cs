@@ -81,6 +81,8 @@ public class Temp : MonoBehaviour {
                 {
                     PlayerPrefs.SetInt("combo", combo);
                 }
+
+                Sound.own.Play(Sound.own.se.whistl, 0);
             }
             
         }
