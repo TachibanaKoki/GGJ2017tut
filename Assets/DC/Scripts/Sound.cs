@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class SE{
     public AudioClip whistl;
+    public AudioClip Dig2;
 };
 
 [System.Serializable]
