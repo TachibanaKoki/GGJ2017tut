@@ -19,6 +19,7 @@ public class Temp : MonoBehaviour {
     public Text combonum;
 
     private float tim = 0;
+    private float mit = 0;
 
     public float timing = 0;
 
@@ -124,18 +125,32 @@ public class Temp : MonoBehaviour {
     }
 
     public void Test() {
-        timing = (tempo - (now % tempo)) / tempo;
-        if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
+        tim = (tempo - (now % tempo)) / tempo;
+        mit = ((now % tempo + max) - tempo) / tempo;
+
+        if (now % tempo < tempo / 2)
         {
-            guideD.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
+            timing = Math.Abs(mit * 2 + 1f);
         }
         else
         {
-            guideD.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
+            timing = Math.Abs(tim * 2 - 1f);
         }
 
+        if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
+        {
+            guideD.gameObject.transform.localScale = new Vector3(tim * guidex, tim * guidey, 0);
+        }
+        else
+        {
+            guideD.gameObject.transform.localScale = new Vector3(tim * guidex, tim * guidey, 0);
+        }
+
+
+        Debug.Log(timing);
+
         if (timing < 0 || timing > tempo) {
-            Debug.LogError(timing);
+            //Debug.LogError(timing);
         }
     }
 

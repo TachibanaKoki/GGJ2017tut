@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour {
 
         float timer = gameManager.decreaseTimer();    //  時間経過
 
-        Debug.Log("timer=" + timer);
+        //Debug.Log("timer=" + timer);
         if ( timer <= 0 )
         {
             SceneManager.LoadScene("Abe/GameOver/GameOver");
