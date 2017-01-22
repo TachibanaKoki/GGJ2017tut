@@ -10,7 +10,9 @@ public class Temp : MonoBehaviour {
 
     private bool k;
 
-    public GameObject guide;
+    public bool r = false;
+     
+    public GameObject guideD;
 
     private float guidex, guidey;
 
@@ -56,6 +58,14 @@ public class Temp : MonoBehaviour {
             Test();
         }
 
+        if (r == true)
+        {
+            guideD.SetActive(true);
+        }
+        else {
+            guideD.SetActive(true);
+        }
+
         combonum.text = "Combo : " + combo.ToString();
 
         //Debug.Log(tempotest);
@@ -73,8 +83,8 @@ public class Temp : MonoBehaviour {
         flag = false;
         combo = 0;
         k = false;
-        guidex = guide.gameObject.transform.localScale.x;
-        guidey = guide.gameObject.transform.localScale.y;
+        guidex = guideD.gameObject.transform.localScale.x;
+        guidey = guideD.gameObject.transform.localScale.y;
 
         tempotest = false;
     }
@@ -117,11 +127,11 @@ public class Temp : MonoBehaviour {
         timing = (tempo - (now % tempo)) / tempo;
         if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
         {
-            guide.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
+            guideD.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
         }
         else
         {
-            guide.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
+            guideD.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
         }
 
         if (timing < 0 || timing > tempo) {
