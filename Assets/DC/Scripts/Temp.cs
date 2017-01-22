@@ -8,6 +8,8 @@ public class Temp : MonoBehaviour {
 
     public static Temp own;
 
+    private bool k;
+
     public Image danger;
     public Text combonum;
 
@@ -34,13 +36,22 @@ public class Temp : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        nowtime = SumTime();
-        now = nowtime - start;
-        Test();
+
+        if (k == true)
+        {
+            nowtime = SumTime();
+            now = nowtime - start;
+            Test();
+        }
+
         combonum.text = "Combo : " + combo.ToString();
 
         //Debug.Log(tempotest);
 	}
+
+    //IEnumerator wait(){
+
+    //}
 
     public void Initialize() {
         start = SumTime();
