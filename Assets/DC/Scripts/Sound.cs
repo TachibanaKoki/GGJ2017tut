@@ -40,7 +40,7 @@ public class Sound : MonoBehaviour {
         BgmSource.clip = a;
         BgmSource.loop = true;
         BgmSource.Play();
-        Temp.own.Initialize();
+        //Temp.own.Initialize();
     }
 
     public void Awake() {
