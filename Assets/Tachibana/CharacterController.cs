@@ -11,7 +11,7 @@ public class CharacterController : MonoBehaviour
 {
 
 
-    public int TensionPoint;
+    public float TensionPoint;
     public CharacterState m_state = CharacterState.MOVE;
 
     [SerializeField]
@@ -46,11 +46,14 @@ public class CharacterController : MonoBehaviour
 
 
     private List<GameObject> BreakRock = null;
+    private AudioSource DigSound;
 
     void Start()
     {
         isStop = true;
         StartCoroutine(Deray(3.0f,Initialize));
+        DigSound = GetComponent<AudioSource>();
+        DigSound.Pause();
     }
 
     void Initialize()
@@ -123,6 +126,14 @@ public class CharacterController : MonoBehaviour
             }
         }
         GetComponent<Animator>().SetBool("isAttack", isBreakRock);
+        if(isBreakRock&&!DigSound.isPlaying)
+        {
+            DigSound.Play();
+        }
+        if(!isBreakRock&&DigSound.isPlaying)
+        {
+            DigSound.Pause();
+        }
     }
 
     void CharactorMove()
@@ -162,7 +173,7 @@ public class CharacterController : MonoBehaviour
         {
             if (TensionPoint > 50.0f)
             {
-                m_TensionEffect.Emit((TensionPoint-50)/10);
+                m_TensionEffect.Emit((int)((TensionPoint-50.0f)/10.0f));
             }
             yield return wait;
         }
@@ -204,7 +215,7 @@ public class CharacterController : MonoBehaviour
             //Deth();
             //isStop = true;
             //StartCoroutine(Deray(3.0f, () => { isStop = false; }));
-            TensionPoint -= 10;
+            //TensionPoint -= 10;
         }
         else if (col.gameObject.tag == "Rock")
         {
@@ -218,7 +229,15 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    IEnumerator Deray(float duration, System.Action action)
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "Player")
+        {
+            TensionPoint -= Time.deltaTime * 20;
+        }
+    }
+
+        IEnumerator Deray(float duration, System.Action action)
     {
         yield return new WaitForSeconds(duration);
         action.Invoke();
