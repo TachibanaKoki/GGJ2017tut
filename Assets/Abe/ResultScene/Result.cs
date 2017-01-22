@@ -66,6 +66,10 @@ public class Result : MonoBehaviour, IPointerDownHandler
             case 3:
                 SceneManager.LoadScene("Master 2");
                 break;
+            case 4:
+                //  今のところエンディング
+                SceneManager.LoadScene("Abe/Ending/Ending");
+                break;
             default:
                 SceneManager.LoadScene("TitleScene");
                 break;
