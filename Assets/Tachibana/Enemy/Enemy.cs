@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
@@ -19,18 +20,19 @@ public class Enemy : MonoBehaviour
     {
         timer = 0.0f;
         Characters = GameObject.FindGameObjectsWithTag("Player");
+        StartCoroutine(Delay(() => { transform.DOScale(0.13f, 3.0f).OnKill(Attack); }));
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Delay(System.Action action)
     {
-        timer += Time.deltaTime;
+        yield return new WaitForSeconds(3.0f);
+        action();
+    }
 
-        if (timer > AttackTimeSpan)
-        {
-            Attack();
-            timer = 0.0f;
-        }
+    void ChageStart()
+    {
+        timer = 0.0f;
+        transform.DOScale(0.13f, 3.0f).OnKill(Attack);
     }
 
     void Attack()
@@ -54,6 +56,6 @@ public class Enemy : MonoBehaviour
         Vector3 v3 = target.transform.position - transform.position;
         Vector2 v = new Vector2(v3.x,v3.y);
         GetComponent<Rigidbody2D>().AddForce(v.normalized*forcePow,ForceMode2D.Impulse);
-
+        transform.DOScale(0.07f, 1).OnKill(ChageStart);
     }
 }
