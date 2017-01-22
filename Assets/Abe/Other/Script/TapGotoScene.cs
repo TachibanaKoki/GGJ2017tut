@@ -14,14 +14,29 @@ public class TapGotoScene : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     LoadSceneMode mode;
 
+    [SerializeField]
+    FadeUI fade;
+
+    bool isGotoScene = false;
+
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(isGotoScene) return;
+        isGotoScene = true;
         StartCoroutine(GotoScene());
     }
 
     IEnumerator GotoScene()
     {
-        yield return new WaitForSeconds(delayTime);
+        var wait1 = new WaitForSeconds(delayTime);
+        IEnumerator wait2 = null;
+        if(fade != null)
+        {
+            wait2 = fade.StartFadeIn();
+        }
+
+        yield return wait1;
+        yield return wait2;
 
         //  次のステージへ遷移（仮実装）
         switch (PlayerPrefs.GetInt("stage"))
