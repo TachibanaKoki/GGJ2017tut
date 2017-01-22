@@ -71,9 +71,15 @@ public class GameManager : MonoBehaviour {
             int score = characterAlive * 1000 + (int)( PlayerPrefs.GetFloat( "timer" ) * 100 ) + PlayerPrefs.GetInt("combo") * 100;
             PlayerPrefs.SetInt("score", score);
             isGameEnd = true;
-            SceneManager.LoadSceneAsync("ResultScene");
+            StartCoroutine(Delay(1.0f,() => { SceneManager.LoadSceneAsync("ResultScene"); }));
         }
 
+    }
+
+    IEnumerator Delay(float duration,System.Action action)
+    {
+        yield return new WaitForSeconds(duration);
+        action();
     }
 
     //  スコア
