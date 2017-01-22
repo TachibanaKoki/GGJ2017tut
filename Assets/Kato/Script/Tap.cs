@@ -7,9 +7,12 @@ public class Tap : MonoBehaviour {
     [SerializeField]    ParticleSystem tapEffect;              // タップエフェクト
     [SerializeField]    Camera _camera;                        // カメラの座標
 
+    [SerializeField]    bool playSound = false;
+    AudioSource audioSource;
+
     // Use this for initialization
     void Start () {
-		
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -20,6 +23,10 @@ public class Tap : MonoBehaviour {
             var pos = _camera.ScreenToWorldPoint(Input.mousePosition + _camera.transform.forward * 10);
             tapEffect.transform.position = pos;
             tapEffect.Emit(1);
+            if(playSound)
+            {
+                audioSource.Play();
+            }
         }
     }
 }
