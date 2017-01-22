@@ -121,7 +121,7 @@ public class Temp : MonoBehaviour {
         }
         else
         {
-            guide.gameObject.transform.localScale = new Vector3((tempo - (now % tempo)) / tempo * guidex, (tempo - (now % tempo)) / tempo * guidey, 0);
+            guide.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
         }
 
         if (timing < 0 || timing > tempo) {
