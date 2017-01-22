@@ -10,8 +10,15 @@ public class Temp : MonoBehaviour {
 
     private bool k;
 
-    public Image danger;
+    public GameObject guide;
+
+    private float guidex, guidey;
+
     public Text combonum;
+
+    private float tim = 0;
+
+    public float timing = 0;
 
     public float delay;
     public float tempo;
@@ -34,8 +41,7 @@ public class Temp : MonoBehaviour {
     void Start () {
         //Initialize();
         own = this;
-        danger.color = new Color(0, 0, 0, 0);
-
+        
         Invoke("wait", 3);
         PlayerPrefs.GetInt("combo", 0);
 	}
@@ -67,6 +73,8 @@ public class Temp : MonoBehaviour {
         flag = false;
         combo = 0;
         k = false;
+        guidex = guide.gameObject.transform.localScale.x;
+        guidey = guide.gameObject.transform.localScale.y;
 
         tempotest = false;
     }
@@ -84,7 +92,6 @@ public class Temp : MonoBehaviour {
 
                 Sound.own.Play(Sound.own.se.whistl, 0);
             }
-            
         }
         else {
             combo = 0;
@@ -107,18 +114,19 @@ public class Temp : MonoBehaviour {
     }
 
     public void Test() {
+        timing = (tempo - (now % tempo)) / tempo;
         if (now % tempo < Math.Abs(min) || tempo < now % tempo + max)
         {
-            danger.color = new Color(1, 0, 0, 0.2f);
-            tempotest = true;
+            guide.gameObject.transform.localScale = new Vector3(timing * guidex, timing * guidey, 0);
         }
         else
         {
-            danger.color = new Color(0, 0, 0, 0);
-            tempotest = false;
+            guide.gameObject.transform.localScale = new Vector3((tempo - (now % tempo)) / tempo * guidex, (tempo - (now % tempo)) / tempo * guidey, 0);
         }
 
-        danger.color = new Color(0, 0, 0, 0);
+        if (timing < 0 || timing > tempo) {
+            Debug.LogError(timing);
+        }
     }
 
     public float SumTime() {
