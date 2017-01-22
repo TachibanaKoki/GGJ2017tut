@@ -32,6 +32,8 @@ public class Temp : MonoBehaviour {
     void Start () {
         Initialize();
         own = this;
+
+        Invoke("wait", 3);
 	}
 	
 	// Update is called once per frame
@@ -49,19 +51,19 @@ public class Temp : MonoBehaviour {
         //Debug.Log(tempotest);
 	}
 
-    IEnumerator wait(){
-        yield return new WaitForSeconds(3);
+    public void wait() {
+        TapUtils.I.OnTapDown += TempoTest;
+        TapUtils.I.OnTapDown += Combo;
         k = true;
     }
 
     public void Initialize() {
         start = SumTime();
         start -= delay;
-        TapUtils.I.OnTapDown += TempoTest;
-        TapUtils.I.OnTapDown += Combo;
         flag = false;
         combo = 0;
         k = false;
+        danger.color = new Color(0, 0, 0, 0);
 
         tempotest = false;
     }
