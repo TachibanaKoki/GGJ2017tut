@@ -49,9 +49,10 @@ public class Temp : MonoBehaviour {
         //Debug.Log(tempotest);
 	}
 
-    //IEnumerator wait(){
-
-    //}
+    IEnumerator wait(){
+        yield return new WaitForSeconds(3);
+        k = true;
+    }
 
     public void Initialize() {
         start = SumTime();
@@ -60,6 +61,7 @@ public class Temp : MonoBehaviour {
         TapUtils.I.OnTapDown += Combo;
         flag = false;
         combo = 0;
+        k = false;
 
         tempotest = false;
     }
