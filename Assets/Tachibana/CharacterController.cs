@@ -69,13 +69,17 @@ public class CharacterController : MonoBehaviour
     void TapAction(Vector3 pos)
     {
         pos = m_Camera.ScreenToWorldPoint(pos);
-        if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance + (TensionPoint * 0.01f)))
+        try
         {
-            Vector3 p = new Vector3(pos.x, pos.y, 0);
-            int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
-            TensionPoint = Mathf.Min(100, TensionPoint + combo+1);
-            MoveTo(p);
-        }
+            if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance + (TensionPoint * 0.01f)))
+            {
+                Vector3 p = new Vector3(pos.x, pos.y, 0);
+                int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
+                TensionPoint = Mathf.Min(100, TensionPoint + combo + 1);
+                MoveTo(p);
+            }
+        }catch
+        { }
     }
 
     void FixedUpdate()
@@ -158,7 +162,7 @@ public class CharacterController : MonoBehaviour
         {
             if (TensionPoint > 50.0f)
             {
-                m_TensionEffect.Emit(TensionPoint - 50);
+                m_TensionEffect.Emit((TensionPoint-50)/10);
             }
             yield return wait;
         }
