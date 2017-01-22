@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -10,6 +12,7 @@ public class GameManager : MonoBehaviour {
     private GameObject[] Rocks;
     bool isGameEnd;
 
+    private Image fadePanel;
     private GameManager()
     {
         // Private Constructor
@@ -31,6 +34,8 @@ public class GameManager : MonoBehaviour {
         Character = GameObject.FindGameObjectsWithTag("Player");
         Rocks = GameObject.FindGameObjectsWithTag("Rock");
         isGameEnd = false;
+        fadePanel = GameObject.Find("Panel").GetComponent<Image>();
+        fadePanel.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -59,7 +64,10 @@ public class GameManager : MonoBehaviour {
         {
             //  ドワーフがやられた
             isGameEnd = true;
-            SceneManager.LoadSceneAsync("GameOver");
+            StartCoroutine(FadeOut(fadePanel));
+            StartCoroutine(Delay(1.0f, () => {
+                SceneManager.LoadSceneAsync("GameOver");
+            }));
         }
 
         if(!RockAlive)
@@ -71,11 +79,31 @@ public class GameManager : MonoBehaviour {
             int score = characterAlive * 1000 + (int)( PlayerPrefs.GetFloat( "timer" ) * 100 ) + PlayerPrefs.GetInt("combo") * 100;
             PlayerPrefs.SetInt("score", score);
             isGameEnd = true;
+            StartCoroutine(FadeOut(fadePanel));
             StartCoroutine(Delay(1.0f,() => { SceneManager.LoadSceneAsync("ResultScene"); }));
         }
 
     }
-
+    IEnumerator FadeOut(Image image,Action callback=null)
+    {
+        image.color = Color.clear;
+        image.gameObject.SetActive(true);
+        float t = 0.0f;
+        float d = 1.0f;
+        while (true)
+        {
+            t += Time.deltaTime;
+            image.color = Color.black * (t / d);
+            yield return null;
+            if (t > d)
+            {
+                image.color = Color.black;
+                break;
+            }
+        }
+        if(callback!=null)
+        callback();
+    }
     IEnumerator Delay(float duration,System.Action action)
     {
         yield return new WaitForSeconds(duration);
