@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Temp : MonoBehaviour {
 
+    public static Temp own;
+
     public Image danger;
     public Text combonum;
 
@@ -26,14 +28,8 @@ public class Temp : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        start = SumTime();
-        start -= delay;
-        TapUtils.I.OnTapDown += TempoTest;
-        TapUtils.I.OnTapDown += Combo;
-        flag = false;
-        combo = 0;
-
-        tempotest = false;
+        Initialize();
+        own = this;
 	}
 	
 	// Update is called once per frame
@@ -45,6 +41,17 @@ public class Temp : MonoBehaviour {
 
         //Debug.Log(tempotest);
 	}
+
+    public void Initialize() {
+        start = SumTime();
+        start -= delay;
+        TapUtils.I.OnTapDown += TempoTest;
+        TapUtils.I.OnTapDown += Combo;
+        flag = false;
+        combo = 0;
+
+        tempotest = false;
+    }
 
     public void Combo(Vector3 vec) {
         if (flag == true)
