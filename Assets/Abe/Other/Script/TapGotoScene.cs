@@ -55,7 +55,9 @@ public class TapGotoScene : MonoBehaviour, IPointerDownHandler
                 break;
         }
 
-        if ( sceneName == "TitleScene" )
+        if (sceneName == "TitleScene"
+         || sceneName == "Abe/Tutorial/Tutorial"
+            )
         {
             SceneManager.LoadScene(sceneName, mode);
         }
