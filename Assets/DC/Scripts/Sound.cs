@@ -26,6 +26,8 @@ public class Sound : MonoBehaviour {
 
     public static Sound own;
 
+    private Temp tem;
+
     public void Play(AudioClip audio, float wait) {
         c = audio;
 
@@ -40,7 +42,7 @@ public class Sound : MonoBehaviour {
         BgmSource.clip = a;
         BgmSource.loop = true;
         BgmSource.Play();
-        //Temp.own.Initialize();
+        tem.Initialize();
     }
 
     public void Awake() {
@@ -49,6 +51,7 @@ public class Sound : MonoBehaviour {
 
     public void Start() {
         own = this.GetComponent<Sound>();
+        tem = Camera.main.GetComponent<Temp>();
         SetBGM(bgm.stage);
     }
 }

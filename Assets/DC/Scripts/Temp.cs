@@ -30,8 +30,9 @@ public class Temp : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Initialize();
+        //Initialize();
         own = this;
+        danger.color = new Color(0, 0, 0, 0);
 
         Invoke("wait", 3);
 	}
@@ -63,7 +64,6 @@ public class Temp : MonoBehaviour {
         flag = false;
         combo = 0;
         k = false;
-        danger.color = new Color(0, 0, 0, 0);
 
         tempotest = false;
     }
