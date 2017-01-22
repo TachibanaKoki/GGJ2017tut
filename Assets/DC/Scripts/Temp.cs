@@ -25,6 +25,8 @@ public class Temp : MonoBehaviour {
 
     public int combo;
 
+    public int maxcombo = 99;
+
     private float nowtime;
     private bool tempotest;
 
@@ -71,6 +73,7 @@ public class Temp : MonoBehaviour {
     public void Combo(Vector3 vec) {
         if (flag == true)
         {
+            if(combo < maxcombo)
             combo++;
         }
         else {
