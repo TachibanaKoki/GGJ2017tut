@@ -57,6 +57,11 @@ public class FadeUI : MonoBehaviour
         return fadeOut;
     }
 
+    void Update()
+    {
+        image.raycastTarget =  image.color.a != 0.0;
+    }
+
     IEnumerator FadeIn()
     {
         yield return new WaitForSeconds(delay);
@@ -68,11 +73,6 @@ public class FadeUI : MonoBehaviour
         }
 
         SetAlpha(1.0f);
-    }
-
-    void Update()
-    {
-        image.raycastTarget =  image.color.a != 0.0;
     }
 
     IEnumerator FadeOut()
