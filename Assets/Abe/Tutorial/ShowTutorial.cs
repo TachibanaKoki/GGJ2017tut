@@ -19,7 +19,11 @@ public class ShowTutorial : MonoBehaviour, IPointerDownHandler
     }
 
     [SerializeField, Tooltip("上から順番に実行")]
-    Tutorial[] tutorials;
+    List<Tutorial> tutorials;
+
+    [SerializeField, Tooltip("上から順番に実行")]
+    List<Tutorial> tutorials2;
+
 
     [SerializeField, Tooltip("表示用のイメージコンポーネント")]
     Image image;
@@ -42,7 +46,11 @@ public class ShowTutorial : MonoBehaviour, IPointerDownHandler
     
     IEnumerator Show()
     {
-        foreach(Tutorial show in tutorials)
+        int stage = PlayerPrefs.GetInt("stage");
+        List<Tutorial> list;
+        list = (stage == 2) ? tutorials2 : tutorials;
+
+        foreach(Tutorial show in list)
         {
             image.sprite = show.showSprite;
             yield return new WaitForSeconds(0.3f);
