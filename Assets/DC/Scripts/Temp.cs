@@ -37,6 +37,7 @@ public class Temp : MonoBehaviour {
         danger.color = new Color(0, 0, 0, 0);
 
         Invoke("wait", 3);
+        PlayerPrefs.GetInt("combo", 0);
 	}
 	
 	// Update is called once per frame
@@ -74,7 +75,16 @@ public class Temp : MonoBehaviour {
         if (flag == true)
         {
             if(combo < maxcombo)
-            combo++;
+            {
+                combo++;
+                if ( PlayerPrefs.GetInt("combo") < combo )
+                {
+                    PlayerPrefs.SetInt("combo", combo);
+                }
+
+                Sound.own.Play(Sound.own.se.whistl, 0);
+            }
+            
         }
         else {
             combo = 0;

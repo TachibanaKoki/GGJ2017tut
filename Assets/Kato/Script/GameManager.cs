@@ -66,7 +66,10 @@ public class GameManager : MonoBehaviour {
         {
             //  岩をすべて砕いた
             PlayerPrefs.SetInt("stage", PlayerPrefs.GetInt("stage") + 1);
-            PlayerPrefs.SetInt("score", characterAlive * 10);   //  とりあえずドワーフの数
+
+            //  スコアの計算
+            int score = characterAlive * 1000 + (int)( PlayerPrefs.GetFloat( "timer" ) * 100 ) + PlayerPrefs.GetInt("combo") * 100;
+            PlayerPrefs.SetInt("score", score);
             isGameEnd = true;
             SceneManager.LoadSceneAsync("ResultScene");
         }
