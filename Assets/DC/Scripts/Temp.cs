@@ -88,6 +88,7 @@ public class Temp : MonoBehaviour {
         }
         else {
             combo = 0;
+            Sound.own.Play(Sound.own.se.Dig2, 0);
         }
     }
 
