@@ -35,6 +35,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Temp m_temp;
 
+    [SerializeField]
+    private float ComboTensionDown;
+
     private Camera m_Camera;
     private Vector3 m_Velocity;
     private Vector3 m_TargetPosition;
@@ -69,6 +72,7 @@ public class CharacterController : MonoBehaviour
         BreakRock = new List<GameObject>();
     }
 
+    int oldCombo = 0;
     void TapAction(Vector3 pos)
     {
         pos = m_Camera.ScreenToWorldPoint(pos);
@@ -78,6 +82,11 @@ public class CharacterController : MonoBehaviour
             {
                 Vector3 p = new Vector3(pos.x, pos.y, 0);
                 int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
+                if(combo<oldCombo)
+                {
+                    TensionPoint -= ComboTensionDown;
+                }
+                oldCombo = combo;
                 TensionPoint = Mathf.Min(100, TensionPoint + combo + 1);
                 MoveTo(p);
             }
