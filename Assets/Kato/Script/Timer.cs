@@ -28,6 +28,7 @@ public class Timer : MonoBehaviour {
         //  雑ですが３秒対策
         if ( timer < 41.0f ) {
             this.GetComponent<Text>().text = "残りタイム:" + (int)timer;
+            PlayerPrefs.SetFloat("timer", timer);
         }
 
     }
