@@ -12,6 +12,9 @@ public class Result : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     GameObject returnTitle;
 
+    [SerializeField]
+    FadeUI fade;
+
     void Awake()
     {
         returnTitle.SetActive(false);
@@ -40,24 +43,32 @@ public class Result : MonoBehaviour, IPointerDownHandler
         }
         else
         {
+            StartCoroutine(GotoScene());
+        }
+    }
+
+    IEnumerator GotoScene()
+    {
+        //フェードの同期待ち
+        var wait = fade.StartFadeIn();
+        yield return wait;
+
         //    SceneManager.LoadScene("TitleScene");
         //  次のステージへ遷移（仮実装）
         switch ( PlayerPrefs.GetInt( "stage" ) )
-            {
-                case 1:
-                    SceneManager.LoadScene("Master");
-                    break;
-                case 2:
-                    SceneManager.LoadScene("Master 1");
-                    break;
-                case 3:
-                    SceneManager.LoadScene("Master 2");
-                    break;
-                default:
-                    SceneManager.LoadScene("TitleScene");
-                    break;
-
-            }
+        {
+            case 1:
+                SceneManager.LoadScene("Master");
+                break;
+            case 2:
+                SceneManager.LoadScene("Master 1");
+                break;
+            case 3:
+                SceneManager.LoadScene("Master 2");
+                break;
+            default:
+                SceneManager.LoadScene("TitleScene");
+                break;
         }
     }
 }
