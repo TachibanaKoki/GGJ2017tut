@@ -15,10 +15,13 @@ public class Enemy : MonoBehaviour
     float timer;
     GameObject[] Characters;
 
+    AudioSource se;
+
     // Use this for initialization
     void Start()
     {
         timer = 0.0f;
+        se = GetComponent<AudioSource>();
         Characters = GameObject.FindGameObjectsWithTag("Player");
         StartCoroutine(Delay(() => { transform.DOScale(0.13f, 3.0f).OnKill(Attack); }));
     }
@@ -52,7 +55,7 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-
+        se.Play();
         Vector3 v3 = target.transform.position - transform.position;
         Vector2 v = new Vector2(v3.x,v3.y);
         GetComponent<Rigidbody2D>().AddForce(v.normalized*forcePow,ForceMode2D.Impulse);
