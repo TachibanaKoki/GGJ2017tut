@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour {
     // Use this for initialization
     void Start () {
         gameManager = GameManager.Instance;
-        gameManager.setTimer( 30.0f );  //  残り時間
+        gameManager.setTimer( 44.0f );  //  残り時間
     }
 	
 	// Update is called once per frame
@@ -22,9 +22,13 @@ public class Timer : MonoBehaviour {
         Debug.Log("timer=" + timer);
         if ( timer <= 0 )
         {
-        //    SceneManager.LoadScene("Abe/GameOver/GameOver");    //  todo 仮
+            SceneManager.LoadScene("Abe/GameOver/GameOver");
         }
 
-        this.GetComponent<Text>().text = "残り時間:" + (int)timer;
+        //  雑ですが３秒対策
+        if ( timer < 41.0f ) {
+            this.GetComponent<Text>().text = "残りタイム:" + (int)timer;
+        }
+
     }
 }
