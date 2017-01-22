@@ -58,6 +58,7 @@ public class CharacterController : MonoBehaviour
         m_Camera = Camera.main;
         TensionPoint = 50;
         timer = 0;
+        isStop = false;
         m_Velocity = Vector3.zero;
         StartCoroutine(TensionDown());
         StartCoroutine(TensionEffect());
