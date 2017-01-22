@@ -245,7 +245,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-        IEnumerator Deray(float duration, System.Action action)
+    IEnumerator Deray(float duration, System.Action action)
     {
         yield return new WaitForSeconds(duration);
         action.Invoke();
