@@ -45,6 +45,8 @@ public class CharacterController : MonoBehaviour
     private float timer;
 
 
+    private List<GameObject> BreakRock = null;
+
     void Start()
     {
         m_Camera = Camera.main;
@@ -55,17 +57,18 @@ public class CharacterController : MonoBehaviour
         StartCoroutine(TensionDown());
         StartCoroutine(TensionEffect());
         TapUtils.I.OnTapDown += TapAction;
+        BreakRock = new List<GameObject>();
 
     }
 
     void TapAction(Vector3 pos)
     {
         pos = m_Camera.ScreenToWorldPoint(pos);
-        if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance+(TensionPoint*0.01f)))
+        if ((Vector3.Distance(pos, transform.position) - 10) < (m_ReactionDestance + (TensionPoint * 0.01f)))
         {
             Vector3 p = new Vector3(pos.x, pos.y, 0);
             int combo = m_Camera.gameObject.GetComponent<Temp>().combo;
-            TensionPoint = Mathf.Min(100,TensionPoint+combo);
+            TensionPoint = Mathf.Min(100, TensionPoint + combo);
             MoveTo(p);
         }
     }
@@ -99,29 +102,45 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        bool isBreakRock = false;
+        for (int i = 0; i < BreakRock.Count; i++)
+        {
+            if(BreakRock[i]!=null)
+            {
+                isBreakRock = true;
+            }
+        }
+        GetComponent<Animator>().SetBool("isAttack", isBreakRock);
+    }
+
     void CharactorMove()
     {
         Animator anim = GetComponent<Animator>();
-        if (Mathf.Abs(m_Velocity.x)>Mathf.Abs(m_Velocity.y))
+        if (Mathf.Abs(m_Velocity.x) > Mathf.Abs(m_Velocity.y))
         {
-            anim.SetBool("isFront", false);
-            if (m_Velocity.x<0)
+            anim.SetBool("isVertical", false);
+            if (m_Velocity.x < 0)
             {
                 GetComponent<SpriteRenderer>().flipX = false;
             }
-            else if(m_Velocity.x>0)
+            else if (m_Velocity.x > 0)
             {
                 GetComponent<SpriteRenderer>().flipX = true;
             }
         }
-        else if(m_Velocity == Vector3.zero)
+        else if (m_Velocity.y < 0)
         {
             anim.SetBool("isFront", true);
+            anim.SetBool("isVertical", true);
         }
-        else
+        else if (m_Velocity.y > 0)
         {
             anim.SetBool("isFront", false);
+            anim.SetBool("isVertical", true);
         }
+
         transform.Translate(m_Velocity);
     }
 
@@ -164,7 +183,7 @@ public class CharacterController : MonoBehaviour
             m = 1;
         float n = 1 / m;
 
-        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * (TensionPoint/25);
+        m_Velocity = (pos - transform.position).normalized * n * m_MoveSpeed * (TensionPoint / 25);
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -174,14 +193,15 @@ public class CharacterController : MonoBehaviour
         {
             //Deth();
             isStop = true;
-            StartCoroutine(Deray(3.0f,() => { isStop = false; }));
+            StartCoroutine(Deray(3.0f, () => { isStop = false; }));
         }
-        else if(col.gameObject.tag == "Rock")
+        else if (col.gameObject.tag == "Rock")
         {
             m_state = CharacterState.ATTACK;
             m_Velocity = Vector3.zero;
+            BreakRock.Add(col.gameObject);
         }
-        else if(col.gameObject.tag == "Enemy" )
+        else if (col.gameObject.tag == "Enemy")
         {
             Deth();
         }
@@ -208,7 +228,9 @@ public class CharacterController : MonoBehaviour
             {
                 m_state = CharacterState.NORMAL;
                 m_Velocity = Vector3.zero;
+
             }
+            BreakRock.Remove(col.gameObject);
         }
     }
 }
