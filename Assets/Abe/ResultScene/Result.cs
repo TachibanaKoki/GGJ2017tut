@@ -27,6 +27,8 @@ public class Result : MonoBehaviour, IPointerDownHandler
 
         yield return showScore.WaitForShowScore;
         returnTitle.SetActive(true);
+        GetComponent<Animator>().Play("ScoreShow");
+        yield return new WaitForSeconds(1.0f);
         GetComponent<Animator>().Play("Flash");
     }
     
