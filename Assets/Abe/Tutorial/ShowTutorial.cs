@@ -1,15 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
-public class ShowTutorial : MonoBehaviour
+public class ShowTutorial : MonoBehaviour, IPointerDownHandler
 {
     [System.Serializable]
     struct Tutorial
     {
-        string playAnimation;
+        [Header("スプライトが切り替わった時に再生するアニメーション名")]
+        public string startAnimationName;
+        [Header("タップ時に再生するアニメーション名")]
+        public string tapAnimationName;
+        [Header("表示するスプライト名")]
+        public Sprite showSprite;
     }
+
+    [SerializeField, Tooltip("上から順番に実行")]
+    List<Tutorial> tutorials;
+
+    [SerializeField, Tooltip("上から順番に実行")]
+    List<Tutorial> tutorials2;
+
+
+    [SerializeField, Tooltip("表示用のイメージコンポーネント")]
+    Image image;
+
+    [SerializeField]
+    Animator animator;
+
+    IEnumerator show;
 
     void Awake()
     {
@@ -18,11 +40,43 @@ public class ShowTutorial : MonoBehaviour
     
     void Start()
     {
-        
+        show = Show();
+        StartCoroutine(show);
     }
     
-    void Update()
+    IEnumerator Show()
     {
-        
+        int stage = PlayerPrefs.GetInt("stage");
+        List<Tutorial> list;
+        list = (stage == 2) ? tutorials2 : tutorials;
+
+        foreach(Tutorial show in list)
+        {
+            image.sprite = show.showSprite;
+            yield return new WaitForSeconds(0.3f);
+
+            WaitForTap();
+            yield return null;
+
+            //アニメーションの再生
+            if(show.tapAnimationName != "")
+            {
+                animator.Play(show.tapAnimationName);
+                yield return new WaitForSeconds(5.0f);
+            }
+        }
+
+        //シーン移動可能にする
+        image.raycastTarget = false;
+    }
+
+    void WaitForTap()
+    {
+        StopCoroutine(show);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        StartCoroutine(show);
     }
 }

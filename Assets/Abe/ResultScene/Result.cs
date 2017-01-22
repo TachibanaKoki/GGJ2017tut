@@ -61,7 +61,8 @@ public class Result : MonoBehaviour, IPointerDownHandler
                 SceneManager.LoadScene("Master");
                 break;
             case 2:
-                SceneManager.LoadScene("Master 1");
+            //  SceneManager.LoadScene("Master 1");
+                SceneManager.LoadScene("Abe/Tutorial/Tutorial");
                 break;
             case 3:
                 SceneManager.LoadScene("Master 2");
